@@ -12,5 +12,6 @@ public class Main {
         System.out.println("After start: " + t1.isAlive());
         t1.join();
         System.out.println("After completion: " + t1.isAlive());
+
     }
 }

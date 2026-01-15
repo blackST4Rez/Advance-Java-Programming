@@ -18,5 +18,9 @@ public class Main{
             int product = a*b;
             System.out.println("Multiplied Value : "+product);
         }
+        System.out.println();
+        System.out.println("Lab No : 1");
+        System.out.println("Name : Raka Maharjan");
+        System.out.println("ID : 2308-1002");
     }
 }

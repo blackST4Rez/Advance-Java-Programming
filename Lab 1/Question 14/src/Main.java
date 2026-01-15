@@ -33,7 +33,7 @@ public class Main {
             System.out.println("You wrote: " + frw.readFile(userFile));
 
             // 4. Serialization
-            Student student = new Student("Ram Hari Krishna", 67);
+            Student student = new Student("Raka Maharjan", 7);
             frw.serializeData(student, studentFile);
             Student loaded = frw.deserializeData(studentFile);
             System.out.println("Deserialized student: " + loaded);
@@ -49,5 +49,9 @@ public class Main {
         } finally {
             sc.close();
         }
+        System.out.println();
+        System.out.println("Lab No : 1");
+        System.out.println("Name : Raka Maharjan");
+        System.out.println("ID : 2308-1002");
     }
 }
