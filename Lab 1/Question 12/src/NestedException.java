@@ -1,4 +1,4 @@
-public class NestedExceptions {
+public class NestedException {
     public static void main(String[] args) {
         int[] arr = {0,1,2,3,4};
         Multiply m = new Multiply();

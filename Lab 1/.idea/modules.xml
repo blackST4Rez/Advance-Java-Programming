@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Lab 1.iml" filepath="$PROJECT_DIR$/.idea/Lab 1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 1/Question 1.iml" filepath="$PROJECT_DIR$/Question 1/Question 1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 10/Question 10.iml" filepath="$PROJECT_DIR$/Question 10/Question 10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 11/Question 11.iml" filepath="$PROJECT_DIR$/Question 11/Question 11.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 12/Question 12.iml" filepath="$PROJECT_DIR$/Question 12/Question 12.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 13/Question 13.iml" filepath="$PROJECT_DIR$/Question 13/Question 13.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 14/Question 14.iml" filepath="$PROJECT_DIR$/Question 14/Question 14.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 2/Question 2.iml" filepath="$PROJECT_DIR$/Question 2/Question 2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 3/Question 3.iml" filepath="$PROJECT_DIR$/Question 3/Question 3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 4/Question 4.iml" filepath="$PROJECT_DIR$/Question 4/Question 4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 5/Question 5.iml" filepath="$PROJECT_DIR$/Question 5/Question 5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 6/Question 6.iml" filepath="$PROJECT_DIR$/Question 6/Question 6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 7/Question 7.iml" filepath="$PROJECT_DIR$/Question 7/Question 7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 8/Question 8.iml" filepath="$PROJECT_DIR$/Question 8/Question 8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Question 9/Question 9.iml" filepath="$PROJECT_DIR$/Question 9/Question 9.iml" />
+    </modules>
+  </component>
+</project>
