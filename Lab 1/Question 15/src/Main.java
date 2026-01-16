@@ -6,6 +6,12 @@ import java.awt.event.ActionListener;
 
 public class Main {
   public static void main(String[] args) {
+
+      System.out.println();
+      System.out.println("Lab No : 1");
+      System.out.println("Name : Raka Maharjan");
+      System.out.println("ID : 2308-1002");
+
     JFrame frame = new JFrame();
     frame.setSize(500,600);
     frame.setDefaultCloseOperation(3);
@@ -69,8 +75,4 @@ public class Main {
     frame.setTitle("Swing Form");
     frame.setVisible(true);
   }
-    System.out.println();
-    System.out.println("Lab No : 1");
-    System.out.println("Name : Raka Maharjan");
-    System.out.println("ID : 2308-1002");
 }

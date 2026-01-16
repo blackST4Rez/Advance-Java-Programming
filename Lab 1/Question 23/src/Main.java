@@ -4,101 +4,67 @@ import java.awt.*;
 public class Main extends JFrame {
 
     public Main() {
-        super("Main Frame - Toolbar Demo");
+        super("Dialog Demo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(700, 500);
+        setSize(500, 300);
         setLocationRelativeTo(null);
 
-        // Create toolbar
-        JToolBar toolBar = new JToolBar("Control Panel");
-        toolBar.setFloatable(false); // cannot be detached
+        JToolBar toolBar = new JToolBar();
+        toolBar.setFloatable(false);
 
-        // Buttons
         JButton btnModal = new JButton("Modal Dialog");
         JButton btnModeless = new JButton("Modeless Dialog");
 
-        // Add buttons to toolbar
         toolBar.add(btnModal);
         toolBar.addSeparator();
         toolBar.add(btnModeless);
 
-        // Action for Modal Dialog
+        // Modal Dialog
         btnModal.addActionListener(e -> {
-            JDialog modalDialog = new JDialog(this, "Modal Dialog", true); // true = modal
-            modalDialog.setSize(380, 220);
-            modalDialog.setLocationRelativeTo(this);
-
-            JLabel label = new JLabel("This is a MODAL dialog", SwingConstants.CENTER);
-            label.setFont(new Font("Segoe UI", Font.BOLD, 18));
-            label.setForeground(new Color(0, 100, 180));
-
-            JButton closeBtn = new JButton("Close");
-            closeBtn.addActionListener(ev -> modalDialog.dispose());
+            JDialog dialog = new JDialog(this, "Modal", true);
+            dialog.setSize(300, 150);
+            dialog.setLocationRelativeTo(this);
 
             JPanel panel = new JPanel(new BorderLayout(10, 10));
             panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            panel.add(label, BorderLayout.CENTER);
-            panel.add(closeBtn, BorderLayout.SOUTH);
-
-            modalDialog.add(panel);
-            modalDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-
-            // Show modal dialog - blocks until closed
-            modalDialog.setVisible(true);
-        });
-
-        // Action for Modeless (Non-modal) Dialog
-        btnModeless.addActionListener(e -> {
-            JDialog modelessDialog = new JDialog(this, "Modeless Dialog", false); // false = modeless
-            modelessDialog.setSize(420, 260);
-            modelessDialog.setLocationRelativeTo(this);
-
-            JLabel label = new JLabel("This is a MODELLESS (non-modal) dialog", SwingConstants.CENTER);
-            label.setFont(new Font("Segoe UI", Font.BOLD, 18));
-            label.setForeground(new Color(120, 0, 180));
-
-            JTextArea textArea = new JTextArea("You can still interact with the main window!\n\nTry moving or clicking the main frame while this dialog is open.");
-            textArea.setEditable(false);
-            textArea.setLineWrap(true);
-            textArea.setWrapStyleWord(true);
-            textArea.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-            textArea.setBackground(new Color(245, 245, 255));
+            panel.add(new JLabel("Modal Dialog - Blocks main window", SwingConstants.CENTER));
 
             JButton closeBtn = new JButton("Close");
-            closeBtn.addActionListener(ev -> modelessDialog.dispose());
-
-            JPanel panel = new JPanel(new BorderLayout(15, 15));
-            panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            panel.add(label, BorderLayout.NORTH);
-            panel.add(new JScrollPane(textArea), BorderLayout.CENTER);
+            closeBtn.addActionListener(ev -> dialog.dispose());
             panel.add(closeBtn, BorderLayout.SOUTH);
 
-            modelessDialog.add(panel);
-            modelessDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-
-            // Show modeless dialog - does NOT block
-            modelessDialog.setVisible(true);
+            dialog.add(panel);
+            dialog.setVisible(true);
         });
 
-        // Add toolbar to the top of the frame
-        add(toolBar, BorderLayout.NORTH);
+        // Modeless Dialog
+        btnModeless.addActionListener(e -> {
+            JDialog dialog = new JDialog(this, "Modeless", false);
+            dialog.setSize(350, 150);
+            dialog.setLocationRelativeTo(this);
 
-        // Optional: add some content to main frame
-        JLabel welcome = new JLabel("Click buttons in the toolbar above", SwingConstants.CENTER);
-        welcome.setFont(new Font("Segoe UI", Font.PLAIN, 24));
-        add(welcome, BorderLayout.CENTER);
+            JPanel panel = new JPanel(new BorderLayout(10, 10));
+            panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            panel.add(new JLabel("Modeless - Main window still active", SwingConstants.CENTER));
+
+            JButton closeBtn = new JButton("Close");
+            closeBtn.addActionListener(ev -> dialog.dispose());
+            panel.add(closeBtn, BorderLayout.SOUTH);
+
+            dialog.add(panel);
+            dialog.setVisible(true);
+        });
+
+        add(toolBar, BorderLayout.NORTH);
+        add(new JLabel("Click toolbar buttons", SwingConstants.CENTER), BorderLayout.CENTER);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                // Optional: Use system look and feel
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception ex) {
-                System.err.println("Failed to set look and feel");
-            }
 
-            new Main().setVisible(true);
-        });
+        System.out.println("\nLab No : 1");
+        System.out.println("Name : Raka Maharjan");
+        System.out.println("ID : 2308-1002");
+
+        SwingUtilities.invokeLater(() -> new Main().setVisible(true));
     }
 }

@@ -1,7 +1,14 @@
 
 import javax.swing.*;
 class GroupLayoutDemo extends JFrame {
+
     GroupLayoutDemo() {
+
+        System.out.println();
+        System.out.println("Lab No : 1");
+        System.out.println("Name : Raka Maharjan");
+        System.out.println("ID : 2308-1002");
+
         setTitle("GroupLayout Demo");
 
         JButton b1 = new JButton("Button 1");

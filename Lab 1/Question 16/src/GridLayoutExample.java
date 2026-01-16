@@ -4,6 +4,12 @@ import java.awt.*;
 
 public class GridLayoutExample extends JFrame {
     public GridLayoutExample() {
+
+        System.out.println();
+        System.out.println("Lab No : 1");
+        System.out.println("Name : Raka Maharjan");
+        System.out.println("ID : 2308-1002");
+
         setTitle("Grid Layout");
         setLayout(new GridLayout(5, 2, 4, 5));
         for (int i = 0; i < 10; ++i) {

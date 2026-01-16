@@ -4,159 +4,60 @@ import java.awt.*;
 public class Main extends JFrame {
 
     public Main() {
-        super("JOptionPane Types Demo");
+        super("JOptionPane Demo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(520, 420);
+        setSize(450, 350);
         setLocationRelativeTo(null);
 
-        // Main panel with nice spacing
-        JPanel mainPanel = new JPanel(new GridLayout(0, 1, 10, 15));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(25, 35, 25, 35));
+        JPanel panel = new JPanel(new GridLayout(0, 1, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Title label
-        JLabel title = new JLabel("Click each button to see different JOptionPane dialogs", SwingConstants.CENTER);
-        title.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        mainPanel.add(title);
+        panel.add(new JLabel("Click buttons to see different dialogs", SwingConstants.CENTER));
+        panel.add(btn("1. Information", () -> msg("Success!", "Info", JOptionPane.INFORMATION_MESSAGE)));
+        panel.add(btn("2. Error", () -> msg("Error occurred!", "Error", JOptionPane.ERROR_MESSAGE)));
+        panel.add(btn("3. Warning", () -> msg("Warning!", "Warning", JOptionPane.WARNING_MESSAGE)));
+        panel.add(btn("4. Question", () -> msg("Continue?", "Question", JOptionPane.QUESTION_MESSAGE)));
+        panel.add(btn("5. Confirm", this::confirm));
+        panel.add(btn("6. Input", this::input));
+        panel.add(btn("7. Custom", this::custom));
 
-        // Add buttons for each dialog type
-        mainPanel.add(createButton("1. Information Message", this::showInfoDialog));
-        mainPanel.add(createButton("2. Question Message", this::showQuestionDialog));
-        mainPanel.add(createButton("3. Error Message", this::showErrorDialog));
-        mainPanel.add(createButton("4. Warning Message", this::showWarningDialog));
-        mainPanel.add(createButton("5. Confirmation Dialog", this::showConfirmDialog));
-        mainPanel.add(createButton("6. Input Dialog", this::showInputDialog));
-        mainPanel.add(createButton("7. Custom Options Dialog", this::showOptionDialog));
-
-        add(mainPanel);
+        add(panel);
     }
 
-    private JButton createButton(String text, Runnable action) {
-        JButton btn = new JButton(text);
-        btn.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        btn.setPreferredSize(new Dimension(300, 45));
-        btn.addActionListener(e -> action.run());
-        return btn;
+    private JButton btn(String text, Runnable action) {
+        JButton b = new JButton(text);
+        b.addActionListener(e -> action.run());
+        return b;
     }
 
-    private void showInfoDialog() {
-        JOptionPane.showMessageDialog(
-                this,
-                "Operation completed successfully!\nYour file has been saved.",
-                "Information",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+    private void msg(String text, String title, int type) {
+        JOptionPane.showMessageDialog(this, text, title, type);
     }
 
-    private void showQuestionDialog() {
-        JOptionPane.showMessageDialog(
-                this,
-                "Would you like to continue with the next step?",
-                "Question",
-                JOptionPane.QUESTION_MESSAGE
-        );
+    private void confirm() {
+        int choice = JOptionPane.showConfirmDialog(this, "Delete file?", "Confirm",
+                JOptionPane.YES_NO_CANCEL_OPTION);
+        String result = choice == 0 ? "Deleted" : choice == 1 ? "Cancelled" : "Closed";
+        msg(result, "Result", JOptionPane.PLAIN_MESSAGE);
     }
 
-    private void showErrorDialog() {
-        JOptionPane.showMessageDialog(
-                this,
-                "Failed to connect to the server.\nPlease check your internet connection.",
-                "Connection Error",
-                JOptionPane.ERROR_MESSAGE
-        );
-    }
-
-    private void showWarningDialog() {
-        JOptionPane.showMessageDialog(
-                this,
-                "The document has unsaved changes.\nSave before closing?",
-                "Unsaved Changes",
-                JOptionPane.WARNING_MESSAGE
-        );
-    }
-
-    private void showConfirmDialog() {
-        int choice = JOptionPane.showConfirmDialog(
-                this,
-                "Do you really want to delete this file?\nThis action cannot be undone.",
-                "Confirm Deletion",
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.WARNING_MESSAGE
-        );
-
-        String message;
-        switch (choice) {
-            case JOptionPane.YES_OPTION:
-                message = "File deleted!";
-                break;
-            case JOptionPane.NO_OPTION:
-                message = "Deletion cancelled.";
-                break;
-            case JOptionPane.CANCEL_OPTION:
-                message = "Action cancelled.";
-                break;
-            default:
-                message = "Dialog closed.";
-        }
-
-        JOptionPane.showMessageDialog(this, message, "Result", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    private void showInputDialog() {
-        String name = (String) JOptionPane.showInputDialog(
-                this,
-                "Please enter your name:",
-                "User Information",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                null,           // possible values (null = free text)
-                "Your name here" // initial value
-        );
-
+    private void input() {
+        String name = JOptionPane.showInputDialog(this, "Enter name:", "Input",
+                JOptionPane.QUESTION_MESSAGE);
         if (name != null && !name.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Hello, " + name + "! Nice to meet you!",
-                    "Greeting",
-                    JOptionPane.PLAIN_MESSAGE
-            );
-        } else if (name != null) {
-            JOptionPane.showMessageDialog(this, "No name entered.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            msg("Hello, " + name + "!", "Greeting", JOptionPane.PLAIN_MESSAGE);
         }
     }
 
-    private void showOptionDialog() {
-        String[] options = {"Save", "Don't Save", "Cancel"};
-        int choice = JOptionPane.showOptionDialog(
-                this,
-                "The document has been modified.\nDo you want to save changes?",
-                "Save Changes?",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]  // default button
-        );
-
-        String result;
-        switch (choice) {
-            case 0: result = "Saving changes..."; break;
-            case 1: result = "Changes discarded."; break;
-            case 2: result = "Action cancelled."; break;
-            default: result = "Dialog closed without selection.";
-        }
-
-        JOptionPane.showMessageDialog(this, result, "Action Result", JOptionPane.INFORMATION_MESSAGE);
+    private void custom() {
+        String[] opts = {"Save", "Don't Save", "Cancel"};
+        int choice = JOptionPane.showOptionDialog(this, "Save changes?", "Save",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
+        String result = choice == 0 ? "Saved" : choice == 1 ? "Discarded" : "Cancelled";
+        msg(result, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception e) {
-                System.err.println("Failed to set system look and feel");
-            }
-
-            new Main().setVisible(true);
-        });
+        SwingUtilities.invokeLater(() -> new Main().setVisible(true));
     }
 }

@@ -1,11 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Main extends JFrame {
 
-    private JDesktopPane desktopPane;
+    private JDesktopPane desktop = new JDesktopPane();
+    private int docCount = 0, imgCount = 0, calcCount = 0;
 
     public Main() {
         super("JInternalFrame Demo");
@@ -13,230 +12,146 @@ public class Main extends JFrame {
         setSize(900, 650);
         setLocationRelativeTo(null);
 
-        // 1. Create the desktop pane (the container for internal frames)
-        desktopPane = new JDesktopPane();
-        desktopPane.setBackground(new Color(240, 240, 245));
+        desktop.setBackground(new Color(240, 240, 245));
 
-        // 2. Create a menu bar
-        JMenuBar menuBar = createMenuBar();
-        setJMenuBar(menuBar);
+        // Menu
+        JMenuBar mb = new JMenuBar();
+        JMenu file = new JMenu("File"), win = new JMenu("Window");
 
-        // 3. Create a toolbar
-        JToolBar toolBar = createToolBar();
-        add(toolBar, BorderLayout.NORTH);
+        JMenuItem exit = new JMenuItem("Exit");
+        exit.addActionListener(e -> System.exit(0));
+        file.add(exit);
 
-        // 4. Add the desktop pane to the center
-        add(desktopPane, BorderLayout.CENTER);
+        addMenuItem(win, "New Document", () -> addFrame("Document"));
+        addMenuItem(win, "New Image Viewer", () -> addFrame("Image"));
+        addMenuItem(win, "New Calculator", () -> addFrame("Calculator"));
+        win.addSeparator();
+        addMenuItem(win, "Tile Windows", this::tile);
+        addMenuItem(win, "Cascade Windows", this::cascade);
 
-        // Optional: status bar at the bottom
-        JLabel statusLabel = new JLabel(" Ready", SwingConstants.LEFT);
-        statusLabel.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
-        add(statusLabel, BorderLayout.SOUTH);
+        mb.add(file);
+        mb.add(win);
+        setJMenuBar(mb);
+
+        // Toolbar
+        JToolBar tb = new JToolBar();
+        tb.setFloatable(false);
+        addButton(tb, "New Document", () -> addFrame("Document"));
+        addButton(tb, "New Image", () -> addFrame("Image"));
+        tb.addSeparator();
+        addButton(tb, "Tile", this::tile);
+        addButton(tb, "Cascade", this::cascade);
+
+        add(tb, BorderLayout.NORTH);
+        add(desktop, BorderLayout.CENTER);
     }
 
-    private JMenuBar createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-
-        // File menu
-        JMenu fileMenu = new JMenu("File");
-        JMenuItem exitItem = new JMenuItem("Exit");
-        exitItem.addActionListener(e -> System.exit(0));
-        fileMenu.add(exitItem);
-
-        // Window menu
-        JMenu windowMenu = new JMenu("Window");
-
-        JMenuItem newDocItem = new JMenuItem("New Document");
-        newDocItem.addActionListener(e -> addNewInternalFrame("Document"));
-
-        JMenuItem newImageItem = new JMenuItem("New Image Viewer");
-        newImageItem.addActionListener(e -> addNewInternalFrame("Image"));
-
-        JMenuItem newCalcItem = new JMenuItem("New Calculator");
-        newCalcItem.addActionListener(e -> addNewInternalFrame("Calculator"));
-
-        JMenuItem tileItem = new JMenuItem("Tile Windows");
-        tileItem.addActionListener(e -> tileInternalFrames());
-
-        JMenuItem cascadeItem = new JMenuItem("Cascade Windows");
-        cascadeItem.addActionListener(e -> cascadeInternalFrames());
-
-        windowMenu.add(newDocItem);
-        windowMenu.add(newImageItem);
-        windowMenu.add(newCalcItem);
-        windowMenu.addSeparator();
-        windowMenu.add(tileItem);
-        windowMenu.add(cascadeItem);
-
-        menuBar.add(fileMenu);
-        menuBar.add(windowMenu);
-
-        return menuBar;
+    private void addMenuItem(JMenu menu, String name, Runnable action) {
+        JMenuItem item = new JMenuItem(name);
+        item.addActionListener(e -> action.run());
+        menu.add(item);
     }
 
-    private JToolBar createToolBar() {
-        JToolBar toolBar = new JToolBar("Tools");
-        toolBar.setFloatable(false);
-
-        JButton newDocBtn = new JButton("New Document");
-        newDocBtn.addActionListener(e -> addNewInternalFrame("Document"));
-
-        JButton newImageBtn = new JButton("New Image");
-        newImageBtn.addActionListener(e -> addNewInternalFrame("Image"));
-
-        JButton tileBtn = new JButton("Tile");
-        tileBtn.addActionListener(e -> tileInternalFrames());
-
-        JButton cascadeBtn = new JButton("Cascade");
-        cascadeBtn.addActionListener(e -> cascadeInternalFrames());
-
-        toolBar.add(newDocBtn);
-        toolBar.add(newImageBtn);
-        toolBar.addSeparator();
-        toolBar.add(tileBtn);
-        toolBar.add(cascadeBtn);
-
-        return toolBar;
+    private void addButton(JToolBar tb, String name, Runnable action) {
+        JButton btn = new JButton(name);
+        btn.addActionListener(e -> action.run());
+        tb.add(btn);
     }
 
-    private void addNewInternalFrame(String type) {
-        JInternalFrame frame = new JInternalFrame(
-                type + " - " + (getNextNumber(type)),
-                true,    // resizable
-                true,    // closable
-                true,    // maximizable
-                true     // iconifiable
-        );
+    private void addFrame(String type) {
+        int num = type.equals("Document") ? ++docCount : type.equals("Image") ? ++imgCount : ++calcCount;
+        JInternalFrame f = new JInternalFrame(type + " - " + num, true, true, true, true);
+        f.setSize(420, 320);
+        f.setLocation(30 + desktop.getAllFrames().length * 30, 30 + desktop.getAllFrames().length * 30);
 
-        frame.setSize(420, 320);
-        frame.setLocation(30 + (desktopPane.getAllFrames().length * 30),
-                30 + (desktopPane.getAllFrames().length * 30));
-
-        // Different content depending on type
-        switch (type) {
-            case "Document":
-                JTextArea textArea = new JTextArea();
-                textArea.setLineWrap(true);
-                textArea.setWrapStyleWord(true);
-                frame.add(new JScrollPane(textArea));
-                break;
-
-            case "Image":
-                JLabel label = new JLabel("Image Viewer", SwingConstants.CENTER);
-                label.setFont(new Font("Segoe UI", Font.BOLD, 36));
-                label.setForeground(new Color(100, 150, 200));
-                frame.add(label);
-                break;
-
-            case "Calculator":
-                JPanel calcPanel = createSimpleCalculator();
-                frame.add(calcPanel);
-                break;
+        if (type.equals("Document")) {
+            JTextArea ta = new JTextArea();
+            ta.setLineWrap(true);
+            ta.setWrapStyleWord(true);
+            f.add(new JScrollPane(ta));
+        } else if (type.equals("Image")) {
+            JLabel lbl = new JLabel("Image Viewer", SwingConstants.CENTER);
+            lbl.setFont(new Font("Segoe UI", Font.BOLD, 36));
+            f.add(lbl);
+        } else {
+            f.add(createCalc());
         }
 
-        desktopPane.add(frame);
-        frame.setVisible(true);
-
-        // Bring to front and select
-        try {
-            frame.setSelected(true);
-        } catch (java.beans.PropertyVetoException e) {
-            // ignore
-        }
+        desktop.add(f);
+        f.setVisible(true);
+        try { f.setSelected(true); } catch (Exception e) {}
     }
 
-    private int docCount = 0;
-    private int imgCount = 0;
-    private int calcCount = 0;
+    private JPanel createCalc() {
+        JPanel p = new JPanel(new BorderLayout(5, 5));
+        p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-    private int getNextNumber(String type) {
-        switch (type) {
-            case "Document": return ++docCount;
-            case "Image":    return ++imgCount;
-            case "Calculator": return ++calcCount;
-            default: return 1;
+        JTextField d = new JTextField("0");
+        d.setHorizontalAlignment(SwingConstants.RIGHT);
+        d.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        d.setEditable(false);
+        p.add(d, BorderLayout.NORTH);
+
+        JPanel bp = new JPanel(new GridLayout(4, 4, 5, 5));
+        String[] btns = {"7","8","9","/","4","5","6","*","1","2","3","-","C","0","=","+"};
+
+        final double[] n1 = {0}, n2 = {0};
+        final String[] op = {""};
+        final boolean[] start = {true};
+
+        for (String t : btns) {
+            JButton b = new JButton(t);
+            b.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+            b.addActionListener(e -> {
+                String c = e.getActionCommand();
+                if (c.matches("[0-9]")) {
+                    d.setText(start[0] ? c : d.getText() + c);
+                    start[0] = false;
+                } else if (c.equals("C")) {
+                    d.setText("0");
+                    n1[0] = n2[0] = 0;
+                    op[0] = "";
+                    start[0] = true;
+                } else if (c.matches("[+\\-*/]")) {
+                    n1[0] = Double.parseDouble(d.getText());
+                    op[0] = c;
+                    start[0] = true;
+                } else if (c.equals("=")) {
+                    n2[0] = Double.parseDouble(d.getText());
+                    double r = op[0].equals("+") ? n1[0] + n2[0] : op[0].equals("-") ? n1[0] - n2[0] :
+                            op[0].equals("*") ? n1[0] * n2[0] : n1[0] / n2[0];
+                    d.setText(String.valueOf(r));
+                    start[0] = true;
+                }
+            });
+            bp.add(b);
         }
+
+        p.add(bp, BorderLayout.CENTER);
+        return p;
     }
 
-    private JPanel createSimpleCalculator() {
-        JPanel panel = new JPanel(new BorderLayout(5, 5));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JTextField display = new JTextField("0");
-        display.setHorizontalAlignment(SwingConstants.RIGHT);
-        display.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        display.setEditable(false);
-        panel.add(display, BorderLayout.NORTH);
-
-        JPanel buttonPanel = new JPanel(new GridLayout(4, 4, 5, 5));
-
-        String[] buttons = {
-                "7", "8", "9", "/",
-                "4", "5", "6", "*",
-                "1", "2", "3", "-",
-                "C", "0", "=", "+"
-        };
-
-        for (String btnText : buttons) {
-            JButton btn = new JButton(btnText);
-            btn.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-            buttonPanel.add(btn);
-        }
-
-        panel.add(buttonPanel, BorderLayout.CENTER);
-        return panel;
+    private void tile() {
+        JInternalFrame[] fs = desktop.getAllFrames();
+        if (fs.length == 0) return;
+        int cols = (int) Math.ceil(Math.sqrt(fs.length));
+        Dimension s = desktop.getSize();
+        int w = s.width / cols, h = s.height / ((int) Math.ceil((double) fs.length / cols));
+        for (int i = 0; i < fs.length; i++) fs[i].setBounds((i % cols) * w, (i / cols) * h, w, h);
     }
 
-    private void tileInternalFrames() {
-        JInternalFrame[] frames = desktopPane.getAllFrames();
-        if (frames.length == 0) return;
-
-        int cols = (int) Math.ceil(Math.sqrt(frames.length));
-        int rows = (int) Math.ceil((double) frames.length / cols);
-
-        Dimension size = desktopPane.getSize();
-        int w = size.width / cols;
-        int h = size.height / rows;
-
-        int x = 0, y = 0, count = 0;
-
-        for (JInternalFrame frame : frames) {
-            frame.setBounds(x * w, y * h, w, h);
-            x++;
-            if (x >= cols) {
-                x = 0;
-                y++;
-            }
-            count++;
-            if (count >= frames.length) break;
-        }
-    }
-
-    private void cascadeInternalFrames() {
-        JInternalFrame[] frames = desktopPane.getAllFrames();
-        if (frames.length == 0) return;
-
-        int offset = 30;
-        for (int i = 0; i < frames.length; i++) {
-            frames[i].setBounds(
-                    i * offset,
-                    i * offset,
-                    450,
-                    350
-            );
-        }
+    private void cascade() {
+        JInternalFrame[] fs = desktop.getAllFrames();
+        for (int i = 0; i < fs.length; i++) fs[i].setBounds(i * 30, i * 30, 450, 350);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                // Optional: system look and feel
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception e) {
-                System.err.println("Could not set look and feel");
-            }
 
-            new Main().setVisible(true);
-        });
+        System.out.println();
+        System.out.println("Lab No : 1");
+        System.out.println("Name : Raka Maharjan");
+        System.out.println("ID : 2308-1002");
+
+        SwingUtilities.invokeLater(() -> new Main().setVisible(true));
     }
 }

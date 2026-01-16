@@ -5,6 +5,12 @@ import java.awt.*;
 public class BorderLayoutExample extends JFrame {
 
     public BorderLayoutExample(){
+
+        System.out.println();
+        System.out.println("Lab No : 1");
+        System.out.println("Name : Raka Maharjan");
+        System.out.println("ID : 2308-1002");
+
         setLayout(new BorderLayout());
         add(new JButton("North"),BorderLayout.NORTH);
         add(new JButton("South"),BorderLayout.SOUTH);
@@ -19,8 +25,4 @@ public class BorderLayoutExample extends JFrame {
     public static void main(String[] args) {
         new BorderLayoutExample();
     }
-        System.out.println();
-        System.out.println("Lab No : 1");
-        System.out.println("Name : Raka Maharjan");
-        System.out.println("ID : 2308-1002");
 }

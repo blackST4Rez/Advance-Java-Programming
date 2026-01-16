@@ -21,11 +21,18 @@ public class InnerClassEvent extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
             JOptionPane.showInputDialog("Wow you just clicked");
         }
     }
 
     public static void main(String[] args) {
+
+        System.out.println();
+        System.out.println("Lab No : 1");
+        System.out.println("Name : Raka Maharjan");
+        System.out.println("ID : 2308-1002");
+
         new InnerClassEvent();
     }
 }

@@ -5,6 +5,12 @@ import java.awt.*;
 public class GridBagLayoutExample extends JFrame {
 
     public GridBagLayoutExample(){
+
+        System.out.println();
+        System.out.println("Lab No : 1");
+        System.out.println("Name : Raka Maharjan");
+        System.out.println("ID : 2308-1002");
+
         setTitle("GridBag Layout");
         setLayout(new GridBagLayout());
         var gbc = new GridBagConstraints();
