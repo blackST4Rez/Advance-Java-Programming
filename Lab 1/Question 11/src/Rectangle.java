@@ -12,6 +12,7 @@ public class Rectangle implements Shape{
     }
 
     public static void main(String[] args){
+
         Rectangle rectangle = new Rectangle();
         System.out.print("Enter the length of the Rectangle : ");
         Scanner sc = new Scanner(System.in);
@@ -20,6 +21,11 @@ public class Rectangle implements Shape{
         int bre = sc.nextInt();
         System.out.println("The area is "+rectangle.area(len,bre));
         System.out.println("The perimeter is "+rectangle.perimeter(len,bre));
+
+        System.out.println();
+        System.out.println("Lab No : 1");
+        System.out.println("Name : Raka Maharjan");
+        System.out.println("ID : 2308-1002");
 
     }
 }

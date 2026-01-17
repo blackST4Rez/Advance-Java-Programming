@@ -4,6 +4,12 @@ import java.awt.*;
 public class Main extends JFrame {
 
     public Main() {
+
+        System.out.println();
+        System.out.println("Lab No : 1");
+        System.out.println("Name : Raka Maharjan");
+        System.out.println("ID : 2308-1002");
+
         super("JOptionPane Demo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450, 350);

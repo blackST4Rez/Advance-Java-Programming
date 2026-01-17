@@ -8,7 +8,7 @@ public class Main {
 
         try {
             File textFile = new File("hello.txt");
-            File copySource = new File("JavaBasicsLab1/Question14/img.png");
+            File copySource = new File("\\Advance-Java-Programming\\Lab 1\\Question 14\\src");
             File copyDest = new File("copied_img.png");
             File userFile = new File("user_input.txt");
             File randomFile = new File("random.txt");
