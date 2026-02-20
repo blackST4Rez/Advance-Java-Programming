@@ -18,7 +18,7 @@ public class Main {
             r.next();
             if(r.getInt(1) == 0) {
                 s.execute("INSERT INTO raka35emp VALUES (1,'John',50000),(2,'Jane',60000),(3,'Bob',55000)");
-                System.out.println("✅ Sample data inserted");
+                System.out.println("Sample data inserted");
             }
         }
 
@@ -49,13 +49,13 @@ public class Main {
         c.setCommand("SELECT * FROM raka35emp"); c.execute();
 
         if(!c.next()) {
-            System.out.println("\n⚠️ No data!");
+            System.out.println("\nNo data!");
             c.close();
             return;
         }
 
         c.beforeFirst();
-        System.out.println("\n📊 Original Data:");
+        System.out.println("\nOriginal Data:");
         while(c.next())
             System.out.println(c.getInt(1) + "  " + c.getString(2) + "  " + c.getInt(3));
 
@@ -73,18 +73,18 @@ public class Main {
         // Sync with conflict handling
         try (Connection conn = DriverManager.getConnection(url, "root", "admin123")) {
             c.acceptChanges(conn);
-            System.out.println("✅ Synced!");
+            System.out.println("Synced!");
         } catch (SyncProviderException e) {
-            System.out.println("❌ Sync error: " + e.getMessage());
+            System.out.println("Sync error: " + e.getMessage());
             // Simple retry
             try (Connection conn = DriverManager.getConnection(url, "root", "admin123")) {
                 c.acceptChanges(conn);
-                System.out.println("✅ Synced on retry!");
+                System.out.println("Synced on retry!");
             }
         }
 
         c.beforeFirst();
-        System.out.println("\n📊 Updated Data:");
+        System.out.println("\nUpdated Data:");
         while(c.next())
             System.out.println(c.getInt(1) + "  " + c.getString(2) + "  " + c.getInt(3));
 
